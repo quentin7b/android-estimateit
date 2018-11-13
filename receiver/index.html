@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Estimate It</title>
+    </head>
+    <body>
+
+        <div id="content"></div>
+
+        <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+        <script type="text/javascript">
+                window.onload = function () {
+                    var ctx = cast.framework.CastReceiverContext.getInstance();
+                    var options = new cast.framework.CastReceiverOptions();
+                    var CHANNEL = 'urn:x-cast:com.github.quentin7b.estimateit';
+
+                    options.customNamespaces = Object.assign({});
+                    options.customNamespaces[CHANNEL] = cast.framework.system.MessageType.JSON;
+
+                    ctx.addCustomMessageListener(CHANNEL, function(customEvent) {
+                        var message = customEvent.data
+                        console.log("Message received from [" + customEvent.senderId + "] : " + message);
+                        document.getElementById("content").innerHTML = message;
+                    });
+
+                    ctx.start(options);
+                }
+
+        </script>
+    </body>
+</html>
